@@ -7,7 +7,7 @@ pkgname=coreutils
 pkgver=9.0
 pkgrel=2
 pkgdesc='The basic file, shell and text manipulation utilities of the GNU operating system'
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 license=('GPL3')
 url='https://www.gnu.org/software/coreutils/'
 depends=('glibc' 'acl' 'attr' 'gmp' 'libcap' 'openssl')
@@ -33,6 +33,7 @@ prepare() {
 
 build() {
   cd $pkgname-$pkgver
+  autoreconf -fi
   ./configure \
       --prefix=/usr \
       --libexecdir=/usr/lib \

@@ -11,7 +11,7 @@ pkgrel=2
 pkgdesc='Complete and free implementation of the OpenPGP standard'
 url='https://www.gnupg.org/'
 license=('GPL')
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 checkdepends=('openssh')
 makedepends=('libldap' 'libusb-compat' 'pcsclite')
 depends=('npth' 'libgpg-error' 'libgcrypt' 'libksba' 'libassuan' 'pinentry'
@@ -45,6 +45,7 @@ prepare() {
 	rm doc/gnupg.info*
 
 	./autogen.sh
+	autoreconf -fi
 }
 
 build() {

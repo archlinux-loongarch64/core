@@ -1,0 +1,12 @@
+diff --git a/lib/freebl/verified/kremlin/include/kremlin/internal/types.h b/lib/freebl/verified/kremlin/include/kremlin/internal/types.h
+index 2c966cb..7b73a8c 100644
+--- a/lib/freebl/verified/kremlin/include/kremlin/internal/types.h
++++ b/lib/freebl/verified/kremlin/include/kremlin/internal/types.h
+@@ -62,6 +62,7 @@ typedef const char *Prims_string;
+      (defined(_MSC_VER) && defined(_M_X64) && defined(__clang__)) || \
+      (defined(__mips__) && defined(__LP64__)) ||                     \
+      (defined(__riscv) && __riscv_xlen == 64) ||                     \
++     (defined(__loongarch64) ) ||                     \
+      defined(__SIZEOF_INT128__))
+ #define HAS_INT128 1
+ #endif

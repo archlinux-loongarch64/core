@@ -5,7 +5,7 @@ pkgname=cryptsetup
 pkgver=2.4.3
 pkgrel=2
 pkgdesc='Userspace setup tool for transparent encryption of block devices using dm-crypt'
-arch=(x86_64)
+arch=('x86_64' 'loongarch64')
 license=('GPL')
 url='https://gitlab.com/cryptsetup/cryptsetup/'
 depends=('device-mapper' 'libdevmapper.so' 'openssl' 'popt' 'util-linux-libs'
@@ -27,6 +27,7 @@ sha256sums=('fc0df945188172264ec5bf1d0bda08264fadc8a3f856d47eba91f31fe354b507'
 build() {
   cd "${srcdir}"/$pkgname-${pkgver}
 
+  autoreconf -fi
   ./configure \
     --prefix=/usr \
     --sbindir=/usr/bin \

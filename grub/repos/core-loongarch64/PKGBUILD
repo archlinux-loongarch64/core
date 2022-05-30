@@ -11,9 +11,11 @@ _GRUB_EMU_BUILD="0"
 
 [[ "${CARCH}" == 'x86_64' ]] && _EFI_ARCH='x86_64'
 [[ "${CARCH}" == 'i686' ]] && _EFI_ARCH='i386'
+[[ "${CARCH}" == 'loongarch64' ]] && _EFI_ARCH='loongarch64'
 
 [[ "${CARCH}" == 'x86_64' ]] && _EMU_ARCH='x86_64'
 [[ "${CARCH}" == 'i686' ]] && _EMU_ARCH='i386'
+[[ "${CARCH}" == 'loongarch64' ]] && _EMU_ARCH='loongarch64'
 
 pkgname='grub'
 pkgdesc='GNU GRand Unified Bootloader (2)'
@@ -24,7 +26,7 @@ _pkgver=2.06
 pkgver=${_pkgver/-/}
 pkgrel=5
 url='https://www.gnu.org/software/grub/'
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 license=('GPL3')
 backup=('etc/default/grub'
         'etc/grub.d/40_custom')
@@ -63,7 +65,16 @@ source=("git+https://git.savannah.gnu.org/git/grub.git#tag=${_tag}?signed"
         '0001-00_header-add-GRUB_COLOR_-variables.patch'
         '0002-10_linux-detect-archlinux-initramfs.patch'
         'grub.default'
-        'sbat.csv')
+        'sbat.csv'
+	'0001-add-LoongArch64-support-for-grub.patch'
+	'0002-Modify-the-li-instruction-to-li.w-to-cooperate-with-.patch'
+	'0003-lower-RELOC_STACK_MAX-to-16.patch'
+	'0004-rewrite-loongarch64-efi-loongarch64_asm.S.patch'
+	'0005-remove-gnulib-patch.patch'
+	'0006-fix-unrecognized-march-option.patch'
+	'0007-initrd-0xXXXXXXXXXXXXXXXX-0xXXXXXXXXXXXXXXXX.patch'
+	'0008-add-LoongArch-support-to-grub-mkrescue.patch'
+	)
 
 sha256sums=('SKIP'
             'SKIP'
@@ -72,7 +83,16 @@ sha256sums=('SKIP'
             '5dee6628c48eef79812bb9e86ee772068d85e7fcebbd2b2b8d1e19d24eda9dab'
             '8488aec30a93e8fe66c23ef8c23aefda39c38389530e9e73ba3fbcc8315d244d'
             'c17bf255a41103f6b71a1710afc7e9addaebc578bcf51a48845e227b2f651682'
-            '98b23d41e223bdc0a6e20bdcb3aa77e642f29b64081b1fd2f575314172fc89df')
+            '98b23d41e223bdc0a6e20bdcb3aa77e642f29b64081b1fd2f575314172fc89df'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+            'SKIP'
+    	   )
 
 _backports=(
 	# fs/xfs: Fix unreadable filesystem with v4 superblock
@@ -121,6 +141,16 @@ prepare() {
 
 	echo "Patch to detect of Arch Linux initramfs images by grub-mkconfig..."
         patch -Np1 -i "${srcdir}/0002-10_linux-detect-archlinux-initramfs.patch"
+
+	# add LoongArch support
+	patch -Np1 -i $srcdir/0001-add-LoongArch64-support-for-grub.patch
+	patch -Np1 -i $srcdir/0002-Modify-the-li-instruction-to-li.w-to-cooperate-with-.patch
+	patch -Np1 -i $srcdir/0003-lower-RELOC_STACK_MAX-to-16.patch
+	patch -Np1 -i $srcdir/0004-rewrite-loongarch64-efi-loongarch64_asm.S.patch
+	patch -Np1 -i $srcdir/0005-remove-gnulib-patch.patch
+	patch -Np1 -i $srcdir/0006-fix-unrecognized-march-option.patch
+	patch -Np1 -i $srcdir/0007-initrd-0xXXXXXXXXXXXXXXXX-0xXXXXXXXXXXXXXXXX.patch
+	patch -Np1 -i $srcdir/0008-add-LoongArch-support-to-grub-mkrescue.patch
 
 	echo "Fix DejaVuSans.ttf location so that grub-mkfont can create *.pf2 files for starfield theme..."
 	sed 's|/usr/share/fonts/dejavu|/usr/share/fonts/dejavu /usr/share/fonts/TTF|g' -i "configure.ac"
@@ -235,8 +265,10 @@ _build_grub-emu() {
 build() {
 	cd "${srcdir}/grub/"
 
-	echo "Build grub bios stuff..."
-	_build_grub-common_and_bios
+	cp -rfa /usr/share/autoconf/build-aux/config.* build-aux/
+
+#	echo "Build grub bios stuff..."
+#	_build_grub-common_and_bios
 
 	echo "Build grub ${_EFI_ARCH} efi stuff..."
 	_build_grub-efi
@@ -244,6 +276,10 @@ build() {
 	if [[ "${CARCH}" == "x86_64" ]] && [[ "${_IA32_EFI_IN_ARCH_X64}" == "1" ]]; then
 		echo "Build grub i386 efi stuff..."
 		_EFI_ARCH="i386" _build_grub-efi
+	fi
+	if [[ "${CARCH}" == "loongarch64" ]] ; then
+		echo "Build grub loongarch64 efi stuff..."
+		_EFI_ARCH="loongarch64" _build_grub-efi
 	fi
 
 	if [[ "${_GRUB_EMU_BUILD}" == "1" ]]; then
@@ -302,6 +338,10 @@ package() {
 	if [[ "${CARCH}" == "x86_64" ]] && [[ "${_IA32_EFI_IN_ARCH_X64}" == "1" ]]; then
 		echo "Package grub i386 efi stuff..."
 		_EFI_ARCH="i386" _package_grub-efi
+	fi
+	if [[ "${CARCH}" == "loongarch64" ]] ; then
+		echo "Package grub loongarch64 efi stuff..."
+		_EFI_ARCH="loongarch64" _package_grub-efi
 	fi
 
 	if [[ "${_GRUB_EMU_BUILD}" == "1" ]]; then

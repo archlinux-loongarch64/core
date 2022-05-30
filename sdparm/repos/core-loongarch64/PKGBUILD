@@ -4,7 +4,7 @@ pkgname=sdparm
 pkgver=1.12
 pkgrel=1
 pkgdesc="An utility similar to hdparm but for SCSI devices"
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 url="http://sg.danny.cz/sg/sdparm.html"
 license=('BSD')
 depends=('glibc' 'bash')
@@ -13,6 +13,7 @@ sha512sums=('37d562271bd9aba34cce3b74f4bcdbe2fcad52e37399fbfb5b457c0e38e04f9376f
 
 build() {
   cd ${pkgname}-${pkgver}
+  autoreconf -fi
   ./configure --prefix=/usr
   make
 }

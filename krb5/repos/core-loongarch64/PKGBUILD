@@ -6,9 +6,9 @@ pkgver=1.19.3
 pkgrel=1
 pkgdesc='The Kerberos network authentication system'
 url='https://web.mit.edu/kerberos/'
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 license=('custom')
-depends=('glibc' 'e2fsprogs' 'libldap' 'keyutils'
+depends=('glibc' 'e2fsprogs' 'keyutils'
          libkeyutils.so libss.so libcom_err.so)
 makedepends=('perl')
 provides=(
@@ -61,6 +61,7 @@ build() {
    cd ${pkgname}-${pkgver}/src
    export CFLAGS+=" -fPIC -fno-strict-aliasing -fstack-protector-all"
    export CPPFLAGS+=" -I/usr/include/et"
+   autoreconf -fi
    ./configure --prefix=/usr \
                --sbindir=/usr/bin \
                --sysconfdir=/etc \

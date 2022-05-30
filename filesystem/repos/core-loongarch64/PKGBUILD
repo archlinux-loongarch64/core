@@ -5,7 +5,7 @@ pkgname=filesystem
 pkgver=2021.12.07
 pkgrel=1
 pkgdesc='Base Arch Linux files'
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 license=('GPL')
 url='https://archlinux.org'
 depends=('iana-etc')
@@ -98,6 +98,10 @@ package() {
   # add lib symlinks
   ln -s usr/lib lib
   [[ $CARCH = 'x86_64' ]] && {
+    ln -s usr/lib lib64
+    ln -s lib usr/lib64
+  }
+  [[ $CARCH = 'loongarch64' ]] && {
     ln -s usr/lib lib64
     ln -s lib usr/lib64
   }

@@ -6,10 +6,10 @@
 # toolchain build order: linux-api-headers->glibc->binutils->gcc->glibc->binutils->gcc
 
 pkgname=binutils
-pkgver=2.38
+pkgver=2.37
 pkgrel=4
 pkgdesc='A set of programs to assemble and manipulate binary and object files'
-arch=(x86_64)
+arch=('x86_64' 'loongarch64')
 url='https://www.gnu.org/software/binutils/'
 license=('GPL3' 'GPL' 'FDL1.3' 'custom:FSFAP')
 groups=(base-devel)
@@ -21,11 +21,12 @@ replaces=(binutils-multilib)
 options=(staticlibs !distcc !ccache debug)
 #_commit=cb5f6a3e146cc70bc2d864989386df80acec5d3e
 #source=(git+https://sourceware.org/git/binutils-gdb.git#commit=$_commit)
-source=(https://ftp.gnu.org/gnu/binutils/binutils-$pkgver.tar.xz{,.sig}
+#_commit=f9b0887de1111349310acf79326f6b33bb0cc221 # upstream_v4.1
+_commit=c4c43c430fd5734b0583006f170aa177118d6f8b # test-tmp-binutils-nopic
+source=("git+https://github.com/loongson/binutils-gdb.git#commit=$_commit"
         gold-warn-unsupported.patch
         fix-incorrect-undefined-symbol.patch)
-sha256sums=('e316477a914f567eccc34d5d29785b8b0f5a10208d36bbacedcc39048ecfe024'
-            'SKIP'
+sha256sums=('SKIP'
             '2d430b66f84a19c154725ec535280c493be1d34f1a90f95208dce02fecd0e4e4'
             'fd33b2f8cac7561cecf3fdbb5a50fd2f2dfa6420516cbe57c47784a06fa16bf6')
 validpgpkeys=(3A24BC1E8FB409FA9F14371813FCEF89DD9E3C4F)
@@ -47,7 +48,7 @@ prepare() {
 
   # fix incorrect "undefined reference" errors
   # https://sourceware.org/bugzilla/show_bug.cgi?id=28879
-  patch -Np1 -i "${srcdir}"/fix-incorrect-undefined-symbol.patch
+  #patch -Np1 -i "${srcdir}"/fix-incorrect-undefined-symbol.patch
 }
 
 build() {
@@ -59,14 +60,14 @@ build() {
     --with-bugurl=https://bugs.archlinux.org/ \
     --enable-cet \
     --enable-deterministic-archives \
-    --enable-gold \
+    --disable-gold \
     --enable-install-libiberty \
     --enable-ld=default \
-    --enable-pgo-build=lto \
+    --enable-lto \
     --enable-plugins \
     --enable-relro \
     --enable-shared \
-    --enable-targets=x86_64-pep,bpf-unknown-none \
+    --enable-targets=all \
     --enable-threads \
     --disable-gdb \
     --disable-gdbserver \
@@ -74,16 +75,18 @@ build() {
     --disable-readline \
     --disable-sim \
     --disable-werror \
-    --with-debuginfod \
+    --with-debuginfod=no \
     --with-pic \
-    --with-system-zlib
+    --with-system-zlib \
+    --with-abi=lp64d \
+    --with-endlan=little 
 
   make -O tooldir=/usr
 
   # Extract the FSF All Permissive License
   # <https://www.gnu.org/prep/maintain/html_node/License-Notices-for-Other-Files.html>
   # used for some linker scripts.
-  tail -n 5 "${srcdir}"/binutils-${pkgver}/ld/scripttempl/README > FSFAP
+#  tail -n 5 "${srcdir}"/binutils-${pkgver}/ld/scripttempl/README > FSFAP
 }
 
 check() {
@@ -115,5 +118,7 @@ package() {
   echo 'INPUT( /usr/lib/libopcodes.a -lbfd )' > "$pkgdir/usr/lib/libopcodes.so"
 
   # install FSF All Permissive License
-  install -Dm644 -t "${pkgdir}"/usr/share/licenses/${pkgname}/ FSFAP
+#  install -Dm644 -t "${pkgdir}"/usr/share/licenses/${pkgname}/ FSFAP
+
+  #mv "$pkgdir"/usr/lib64/* "$pkgdir"/usr/lib/; rm -rf "$pkgdir"/usr/lib64
 }

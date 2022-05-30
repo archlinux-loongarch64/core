@@ -7,7 +7,7 @@ pkgname=pcre
 pkgver=8.45
 pkgrel=1
 pkgdesc='A library that implements Perl 5-style regular expressions'
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 url='https://www.pcre.org/'
 license=('BSD')
 depends=('gcc-libs' 'readline' 'zlib' 'bzip2' 'bash')
@@ -31,12 +31,13 @@ prepare() {
 
 build() {
   cd $pkgname-$pkgver
+  autoreconf -fi
   ./configure \
     --prefix=/usr \
     --enable-unicode-properties \
     --enable-pcre16 \
     --enable-pcre32 \
-    --enable-jit \
+    --disable-jit \
     --enable-pcregrep-libz \
     --enable-pcregrep-libbz2 \
     --enable-pcretest-libreadline

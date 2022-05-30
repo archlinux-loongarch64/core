@@ -5,7 +5,7 @@ pkgname=reiserfsprogs
 pkgver=3.6.27
 pkgrel=3
 pkgdesc="Reiserfs utilities"
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 url="https://www.kernel.org/"
 license=('GPL')
 depends=('util-linux')
@@ -23,6 +23,7 @@ prepare() {
 build() {
   cd "${srcdir}/${pkgname}-${pkgver}"
   CFLAGS+=' -fgnu89-inline'
+  autoreconf -fi
   ./configure --prefix=/usr --sbindir=/usr/bin
   make
 }

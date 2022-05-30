@@ -10,7 +10,7 @@ pkgver=${_realver/-/}
 pkgrel=1
 pkgdesc='Miscellaneous system utilities for Linux'
 url='https://github.com/karelzak/util-linux'
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 makedepends=('asciidoctor' 'libcap-ng' 'libxcrypt' 'python' 'systemd')
 license=('GPL2')
 options=('debug' 'strip')
@@ -35,6 +35,7 @@ sha256sums=('6d111cbe4d55b336db2f1fbeffbc65b89908704c01136371d32aa9bec373eb64'
 build() {
   cd "${pkgbase}-${_realver}"
 
+  autoreconf -fi
   ./configure \
     --prefix=/usr \
     --libdir=/usr/lib \

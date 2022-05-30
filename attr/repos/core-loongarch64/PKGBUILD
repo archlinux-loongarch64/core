@@ -4,7 +4,7 @@ pkgname=attr
 pkgver=2.5.1
 pkgrel=2
 pkgdesc='Extended attribute support library for ACL support'
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 url='https://savannah.nongnu.org/projects/attr'
 license=('LGPL')
 depends=('glibc')
@@ -24,6 +24,7 @@ sha256sums=('db448a626f9313a1a970d636767316a8da32aede70518b8050fa0de7947adc32'
 build() {
   cd $pkgname-$pkgver
 
+  autoreconf -fi
   ./configure \
     --libdir=/usr/lib \
     --libexecdir=/usr/lib \

@@ -5,7 +5,7 @@ pkgver=0.21
 pkgrel=2
 pkgdesc="GNU internationalization library"
 url="https://www.gnu.org/software/gettext/"
-arch=(x86_64)
+arch=('x86_64' 'loongarch64')
 license=(GPL)
 groups=(base-devel)
 depends=(gcc-libs acl sh libunistring libxml2)
@@ -34,7 +34,7 @@ prepare() {
 build() {
   cd $pkgname-$pkgver
 
-  autoreconf --force
+  autoreconf -fi
 
   ./configure \
     --prefix=/usr \

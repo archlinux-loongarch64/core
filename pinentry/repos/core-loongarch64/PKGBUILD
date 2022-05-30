@@ -7,7 +7,7 @@ pkgver=1.2.0
 pkgrel=1
 pkgdesc='Collection of simple PIN or passphrase entry dialogs which utilize the Assuan protocol'
 url='https://gnupg.org/related_software/pinentry/'
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 license=('GPL')
 depends=(
   'glibc' 'ncurses' 'libcap' 'libassuan' 'libsecret' 'glib2'
@@ -33,15 +33,16 @@ validpgpkeys=(
 
 build() {
   cd "${pkgname}-${pkgver}"
+  autoreconf -fi
   ./configure \
     --prefix=/usr \
     --enable-pinentry-tty \
     --enable-pinentry-curses \
     --enable-fallback-curses \
-    --enable-pinentry-emacs \
-    --enable-pinentry-gtk2 \
-    --enable-pinentry-gnome3 \
-    --enable-pinentry-qt \
+    --disable-pinentry-emacs \
+    --disable-pinentry-gtk2 \
+    --disable-pinentry-gnome3 \
+    --disable-pinentry-qt \
     --enable-libsecret \
 
   make

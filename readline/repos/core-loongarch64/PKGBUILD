@@ -9,7 +9,7 @@ _patchlevel=002
 pkgver=${_basever}.${_patchlevel}
 pkgrel=1
 pkgdesc='GNU readline library'
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 url='https://tiswww.case.edu/php/chet/readline/rltop.html'
 license=('GPL')
 backup=('etc/inputrc')
@@ -43,6 +43,7 @@ build() {
   # build with -fPIC for x86_64 (FS#15634)
   [[ $CARCH == "x86_64" ]] && CFLAGS="$CFLAGS -fPIC"
 
+  cp -rfa /usr/share/autoconf/build-aux/config.* support
   ./configure --prefix=/usr
   make SHLIB_LIBS=-lncurses
 }

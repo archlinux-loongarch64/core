@@ -6,7 +6,7 @@ pkgname=flex
 pkgver=2.6.4
 pkgrel=3
 pkgdesc="A tool for generating text-scanning programs"
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 url="https://github.com/westes/flex"
 license=('custom')
 groups=('base-devel')
@@ -22,7 +22,7 @@ validpgpkeys=('56C67868E93390AA1039AD1CE4B29C8D64885307') # Will Estes
 prepare() {
   cd "$pkgname-$pkgver"
   patch -p1 -i "$srcdir"/flex-pie.patch
-  autoreconf
+  autoreconf -fi
 }
 
 build() {

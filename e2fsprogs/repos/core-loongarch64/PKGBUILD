@@ -6,7 +6,7 @@ pkgname=('e2fsprogs' 'fuse2fs')
 pkgver=1.46.5
 pkgrel=3
 pkgdesc='Ext2/3/4 filesystem utilities'
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 license=('GPL' 'LGPL' 'MIT')
 url='http://e2fsprogs.sourceforge.net'
 options=('debug')
@@ -71,7 +71,7 @@ package_e2fsprogs() {
   rm "${pkgdir}"/usr/lib/lib{com_err,e2p,ext2fs,ss}.a
 
   # remove fuse2fs which will be packaged separately
-  rm "${pkgdir}"/usr/{bin/fuse2fs,share/man/man1/fuse2fs.1}
+  #rm "${pkgdir}"/usr/{bin/fuse2fs,share/man/man1/fuse2fs.1}
 
   # install MIT license
   install -D -m0644 "${srcdir}/MIT-LICENSE" \
@@ -84,8 +84,8 @@ package_fuse2fs() {
 
   cd "${srcdir}/${pkgbase}-${pkgver}"
 
-  install -D -m0755 'misc/fuse2fs' "${pkgdir}/usr/bin/fuse2fs"
-  install -D -m0644 'misc/fuse2fs.1' "${pkgdir}/usr/share/man/man1/fuse2fs.1"
+#  install -D -m0755 'misc/fuse2fs' "${pkgdir}/usr/bin/fuse2fs"
+#  install -D -m0644 'misc/fuse2fs.1' "${pkgdir}/usr/share/man/man1/fuse2fs.1"
   mkdir -p "${pkgdir}"/usr/share/licenses
   ln -s "${pkgbase}" "${pkgdir}/usr/share/licenses/${pkgname}"
 }

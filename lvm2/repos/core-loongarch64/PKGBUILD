@@ -6,7 +6,7 @@ pkgname=('lvm2' 'device-mapper')
 _tag='890c0635554075e122ef5437b5dfb28ff6fcb128' # git rev-parse v${pkgver//./_}
 pkgver=2.03.15
 pkgrel=1
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 url='https://sourceware.org/lvm2/'
 license=('GPL2' 'LGPL2.1')
 makedepends=('git' 'systemd' 'thin-provisioning-tools')
@@ -51,6 +51,7 @@ build() {
 
   cd lvm2/
 
+  autoreconf -fi
   ./configure \
     CONFIG_SHELL=/bin/bash \
     --prefix=/usr \

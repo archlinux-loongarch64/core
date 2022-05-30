@@ -6,7 +6,7 @@ pkgname=libaio
 pkgver=0.3.112
 pkgrel=3
 pkgdesc="The Linux-native asynchronous I/O facility (aio) library"
-arch=(x86_64)
+arch=('x86_64' 'loongarch64')
 url="https://pagure.io/libaio"
 license=(LGPL2.1)
 depends=(glibc)
@@ -24,7 +24,7 @@ prepare() {
 build() {
   # libaio is a thin wrapper around kernel syscalls, it does not use stdlib and
   # other helpers like stack protection libraries
-  CFLAGS="-march=${CARCH/_/-} -mtune=generic -O2 -pipe"
+  CFLAGS="-march=${CARCH/_/-} -O2 -pipe"
   make -C $pkgname-$pkgver
 }
 

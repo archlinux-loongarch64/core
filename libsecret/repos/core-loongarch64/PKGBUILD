@@ -7,7 +7,7 @@ pkgver=0.20.5
 pkgrel=2
 pkgdesc="Library for storing and retrieving passwords and other secrets"
 url="https://wiki.gnome.org/Projects/Libsecret"
-arch=(x86_64)
+arch=('x86_64' 'loongarch64')
 license=(LGPL)
 depends=(glib2 libgcrypt tpm2-tss)
 makedepends=(gobject-introspection vala git meson gi-docgen bash-completion)
@@ -30,7 +30,7 @@ prepare() {
 }
 
 build() {
-  arch-meson $pkgbase build -D tpm2=true
+  arch-meson $pkgbase build -D tpm2=false
   meson compile -C build
 }
 

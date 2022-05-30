@@ -7,7 +7,7 @@ pkgrel=2
 pkgdesc='Daemon that runs specified programs at scheduled times and related tools'
 url='https://github.com/cronie-crond/cronie/'
 license=('custom:BSD')
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 depends=('pam' 'bash' 'run-parts')
 optdepends=('smtp-server: send job output via email'
             'smtp-forwarder: forward job output to email server')
@@ -40,6 +40,7 @@ prepare() {
 build() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
 
+	autoreconf -fi
 	./configure \
 		--prefix=/usr \
 		--sysconfdir=/etc \

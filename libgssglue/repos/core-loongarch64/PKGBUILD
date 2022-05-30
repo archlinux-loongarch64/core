@@ -5,7 +5,7 @@ pkgname=libgssglue
 pkgver=0.4
 pkgrel=4
 pkgdesc="Exports a gssapi interface which calls other random gssapi libraries"
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 url="http://www.citi.umich.edu/projects/nfsv4/linux/"
 license=('BSD')
 depends=('glibc')
@@ -16,6 +16,7 @@ source=(http://www.citi.umich.edu/projects/nfsv4/linux/$pkgname/$pkgname-$pkgver
 
 build() {
   cd "$srcdir"/$pkgname-$pkgver
+  autoreconf -fi
   ./configure --prefix=/usr 
   make
 }

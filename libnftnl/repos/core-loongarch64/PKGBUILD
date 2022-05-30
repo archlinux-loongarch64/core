@@ -4,7 +4,7 @@ pkgname=libnftnl
 pkgver=1.2.1
 pkgrel=1
 pkgdesc='Netfilter library providing interface to the nf_tables subsystem'
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 url='https://netfilter.org/projects/libnftnl/'
 license=('GPL2')
 depends=('libmnl')
@@ -28,6 +28,7 @@ prepare() {
 
 build() {
   cd $pkgname-$pkgver
+  autoreconf -fi
   ./configure --prefix=/usr
   make
 }

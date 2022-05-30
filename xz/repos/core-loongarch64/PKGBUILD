@@ -5,7 +5,7 @@ pkgname=xz
 pkgver=5.2.5
 pkgrel=3
 pkgdesc='Library and command line tools for XZ and LZMA compressed files'
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 url='https://tukaani.org/xz/'
 license=('GPL' 'LGPL' 'custom')
 depends=('sh')
@@ -26,6 +26,7 @@ prepare() {
 build() {
 	cd "${srcdir}/${pkgname}-${pkgver}"
 
+	autoreconf -fi
 	export CFLAGS="$CFLAGS -Wno-format-truncation"
 	./configure --prefix=/usr \
 		--disable-rpath \

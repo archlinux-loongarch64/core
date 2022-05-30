@@ -9,7 +9,7 @@ pkgbase=nfs-utils
 pkgname=('nfs-utils' 'nfsidmap')
 pkgver=2.6.1
 pkgrel=1
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 url='http://nfs.sourceforge.net'
 makedepends=('libevent' 'sqlite' 'rpcsvc-proto' 'device-mapper')
 # http://git.linux-nfs.org/?p=steved/nfs-utils.git;a=summary
@@ -36,7 +36,7 @@ build() {
     --sbindir=/usr/bin \
     --sysconfdir=/etc \
     --enable-nfsv4server \
-    --enable-gss \
+    --disable-gss \
     --without-tcp-wrappers \
     --with-statedir=/var/lib/nfs \
     --enable-ipv6 \

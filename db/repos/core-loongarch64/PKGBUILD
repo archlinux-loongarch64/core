@@ -6,7 +6,7 @@ pkgname=db
 pkgver=5.3.28
 pkgrel=5
 pkgdesc="The Berkeley DB embedded database system"
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 url="https://www.oracle.com/technology/software/products/berkeley-db/index.html"
 license=('custom')
 depends=('gcc-libs' 'sh')
@@ -21,6 +21,9 @@ prepare() {
 
 build() {
   cd "${srcdir}"/$pkgname-${pkgver}/build_unix
+  pushd ../
+  cp -rfav /usr/share/autoconf/build-aux/config.* dist/
+  popd
   ../dist/configure --prefix=/usr --enable-compat185 \
     --enable-shared --enable-static --enable-cxx --enable-dbm \
     --enable-stl

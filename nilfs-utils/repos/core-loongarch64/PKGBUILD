@@ -5,7 +5,7 @@ pkgname=nilfs-utils
 pkgver=2.2.8
 pkgrel=2
 pkgdesc="A log-structured file system supporting continuous snapshotting (userspace utils)"
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 url="http://nilfs.sourceforge.net/"
 license=('GPL2' 'LGPL2.1')
 backup=('etc/nilfs_cleanerd.conf')
@@ -15,6 +15,7 @@ md5sums=('feb4fbf72679cb6449935d720b161aec')
 
 build() {
   cd $pkgname-$pkgver
+  autoreconf -fi
   sed -i -e 's#root_sbindir=/sbin#root_sbindir=/usr/bin#' configure
   ./configure --sbindir=/usr/bin --with-libmount
   make

@@ -6,7 +6,7 @@ pkgname=ding-libs
 pkgver=0.6.1
 pkgrel=4
 pkgdesc="'D is not GLib' utility libraries"
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 url="https://pagure.io/SSSD/ding-libs/"
 license=('GPL3' 'LGPL3')
 depends=('glibc')
@@ -29,6 +29,7 @@ prepare() {
 
 build() {
   cd $pkgname-$pkgver
+  autoreconf -fi
   ./configure --prefix=/usr --disable-static
   make all docs
 }

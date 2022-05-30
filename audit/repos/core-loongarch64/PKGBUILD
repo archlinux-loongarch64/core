@@ -12,21 +12,26 @@ pkgver=3.0.7
 pkgrel=1
 pkgdesc='Userspace components of the audit framework'
 url='https://people.redhat.com/sgrubb/audit'
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 makedepends=('glibc' 'krb5' 'libcap-ng' 'libldap' 'swig' 'linux-headers' 'python')
 license=('GPL')
 options=('emptydirs' 'debug')
-source=(https://people.redhat.com/sgrubb/audit/${pkgname}-${pkgver}.tar.gz)
-sha512sums=('b5662b32082fc2ac54e247aa0db5442d76afa30134ebba1d624a17004e9ccf6856bb75344af4ce9d9a0a66c03e1c6f18b7d45658d7df13ea71af0c8362e08d70')
-b2sums=('706db746fb779913619da794bab24a9e890e1655bbd0abb007cbc909b32ab1d643e93953a23ef864d5e189f3447a7ddb4dca1478144cdc226f5a5594545bd28f')
+source=(https://people.redhat.com/sgrubb/audit/${pkgname}-${pkgver}.tar.gz
+        audit-linux-headers-5.17.diff)
+sha512sums=('b5662b32082fc2ac54e247aa0db5442d76afa30134ebba1d624a17004e9ccf6856bb75344af4ce9d9a0a66c03e1c6f18b7d45658d7df13ea71af0c8362e08d70'
+            'SKIP')
+b2sums=('706db746fb779913619da794bab24a9e890e1655bbd0abb007cbc909b32ab1d643e93953a23ef864d5e189f3447a7ddb4dca1478144cdc226f5a5594545bd28f'
+            'SKIP')
 
 prepare() {
   cd ${pkgbase}-${pkgver}
+  patch -Np1 -i $srcdir/audit-linux-headers-5.17.diff
   sed 's|/var/run/auditd.pid|/run/auditd.pid|' -i init.d/auditd.service
 }
 
 build() {
   cd ${pkgbase}-${pkgver}
+  autoreconf -fi
   ./configure \
     --prefix=/usr \
     --sbindir=/usr/bin \

@@ -1,0 +1,129 @@
+diff --git a/config.h.in b/config.h.in
+index 8206204..ab09b6d 100644
+--- a/config.h.in
++++ b/config.h.in
+@@ -339,15 +339,15 @@
+ #define NEXT_FSTATAT64_NOARG  next___astatat64
+ 
+ #define WRAP_MKNOD_QUOTE  __amknod
+-#define WRAP_MKNOD  __amknod
+-#define WRAP_MKNOD_RAW  __amknod
+-#define TMP_MKNOD  __amknod
++//#define WRAP_MKNOD  __amknod
++//#define WRAP_MKNOD_RAW  __amknod
++//#define TMP_MKNOD  __amknod
+ #define NEXT_MKNOD_NOARG  next___amknod
+ 
+ #define WRAP_MKNODAT_QUOTE  __amknodat
+-#define WRAP_MKNODAT  __amknodat
+-#define WRAP_MKNODAT_RAW  __amknodat
+-#define TMP_MKNODAT  __amknodat
++//#define WRAP_MKNODAT  __amknodat
++//#define WRAP_MKNODAT_RAW  __amknodat
++//#define TMP_MKNODAT  __amknodat
+ #define NEXT_MKNODAT_NOARG  next___amknodat
+ 
+ 
+diff --git a/configure.ac b/configure.ac
+index e7c1c7c..9e81a30 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -561,15 +561,15 @@ AH_VERBATIM([WRAP_STAT],
+ #define NEXT_FSTATAT64_NOARG  next___astatat64
+ 
+ #define WRAP_MKNOD_QUOTE  __amknod
+-#define WRAP_MKNOD  __amknod
+-#define WRAP_MKNOD_RAW  __amknod
+-#define TMP_MKNOD  __amknod
++//#define WRAP_MKNOD  __amknod
++//#define WRAP_MKNOD_RAW  __amknod
++//#define TMP_MKNOD  __amknod
+ #define NEXT_MKNOD_NOARG  next___amknod
+ 
+ #define WRAP_MKNODAT_QUOTE  __amknodat
+-#define WRAP_MKNODAT  __amknodat
+-#define WRAP_MKNODAT_RAW  __amknodat
+-#define TMP_MKNODAT  __amknodat
++//#define WRAP_MKNODAT  __amknodat
++//#define WRAP_MKNODAT_RAW  __amknodat
++//#define TMP_MKNODAT  __amknodat
+ #define NEXT_MKNODAT_NOARG  next___amknodat
+ ])
+ dnl kludge end
+diff --git a/libfakeroot.c b/libfakeroot.c
+index 28d155a..57346fb 100644
+--- a/libfakeroot.c
++++ b/libfakeroot.c
+@@ -1386,39 +1386,39 @@ int renameat(int olddir_fd, const char *oldpath,
+ #if defined(__GLIBC__)
+ #if __GLIBC_PREREQ(2,33)
+ /* Glibc 2.33 exports symbols for these functions in the shared lib */
+-  int lstat(const char *file_name, struct stat *statbuf) {
+-     return WRAP_LSTAT LSTAT_ARG(_STAT_VER, file_name, statbuf);
+-  }
+-  int stat(const char *file_name, struct stat *st) {
+-     return WRAP_STAT STAT_ARG(_STAT_VER, file_name, st);
+-  }
+-  int fstat(int fd, struct stat *st) {
+-     return WRAP_FSTAT FSTAT_ARG(_STAT_VER, fd, st);
+-  }
+-
+-  #ifdef HAVE_FSTATAT
+-    int fstatat(int dir_fd, const char *path, struct stat *st, int flags) {
+-       return WRAP_FSTATAT FSTATAT_ARG(_STAT_VER, dir_fd, path, st, flags);
+-    }
+-  #endif
+-
+-  #ifdef STAT64_SUPPORT
+-    int lstat64(const char *file_name, struct stat64 *st) {
+-       return WRAP_LSTAT64 LSTAT64_ARG(_STAT_VER, file_name, st);
+-    }
+-    int stat64(const char *file_name, struct stat64 *st) {
+-       return WRAP_STAT64 STAT64_ARG(_STAT_VER, file_name, st);
+-    }
+-    int fstat64(int fd, struct stat64 *st) {
+-       return WRAP_FSTAT64 FSTAT64_ARG(_STAT_VER, fd, st);
+-    }
+-
+-    #ifdef HAVE_FSTATAT
+-      int fstatat64(int dir_fd, const char *path, struct stat64 *st, int flags) {
+-	 return WRAP_FSTATAT64 FSTATAT64_ARG(_STAT_VER, dir_fd, path, st, flags);
+-      }
+-    #endif
+-  #endif
++//  int lstat(const char *file_name, struct stat *statbuf) {
++//     return WRAP_LSTAT LSTAT_ARG(_STAT_VER, file_name, statbuf);
++//  }
++//  int stat(const char *file_name, struct stat *st) {
++//     return WRAP_STAT STAT_ARG(_STAT_VER, file_name, st);
++//  }
++//  int fstat(int fd, struct stat *st) {
++//     return WRAP_FSTAT FSTAT_ARG(_STAT_VER, fd, st);
++//  }
++//
++//  #ifdef HAVE_FSTATAT
++//    int fstatat(int dir_fd, const char *path, struct stat *st, int flags) {
++//       return WRAP_FSTATAT FSTATAT_ARG(_STAT_VER, dir_fd, path, st, flags);
++//    }
++//  #endif
++//
++//  #ifdef STAT64_SUPPORT
++//    int lstat64(const char *file_name, struct stat64 *st) {
++//       return WRAP_LSTAT64 LSTAT64_ARG(_STAT_VER, file_name, st);
++//    }
++//    int stat64(const char *file_name, struct stat64 *st) {
++//       return WRAP_STAT64 STAT64_ARG(_STAT_VER, file_name, st);
++//    }
++//    int fstat64(int fd, struct stat64 *st) {
++//       return WRAP_FSTAT64 FSTAT64_ARG(_STAT_VER, fd, st);
++//    }
++//
++//    #ifdef HAVE_FSTATAT
++//      int fstatat64(int dir_fd, const char *path, struct stat64 *st, int flags) {
++//	 return WRAP_FSTATAT64 FSTATAT64_ARG(_STAT_VER, dir_fd, path, st, flags);
++//      }
++//    #endif
++//  #endif
+ 
+   int mknod(const char *pathname, mode_t mode, dev_t dev) {
+      return WRAP_MKNOD MKNOD_ARG(_STAT_VER, pathname, mode, &dev);

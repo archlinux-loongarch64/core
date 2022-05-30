@@ -7,14 +7,16 @@ pkgver=4.33
 pkgrel=2
 pkgdesc="Netscape Portable Runtime"
 url="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSPR"
-arch=(x86_64)
+arch=('x86_64' 'loongarch64')
 license=(MPL GPL)
 depends=(glibc sh)
 makedepends=(zip mercurial)
 options=(debug)
 _revision=5f753966dc01e1872eb4fee6e7b6d0a4fd3daad2
-source=("hg+https://hg.mozilla.org/projects/nspr#revision=$_revision")
-sha256sums=('SKIP')
+source=("hg+https://hg.mozilla.org/projects/nspr#revision=$_revision"
+        "fix-loongarch64-build.diff")
+sha256sums=('SKIP'
+            'SKIP')
 
 pkgver() {
   cd nspr
@@ -23,10 +25,12 @@ pkgver() {
 
 prepare() {
   cd nspr
+  patch -Np2 -i $srcdir/fix-loongarch64-build.diff
 }
 
 build() {
   cd nspr
+  autoreconf -fi
   ./configure \
       --prefix=/usr \
       --libdir=/usr/lib \
@@ -34,10 +38,11 @@ build() {
       --enable-optimize \
       --disable-debug \
       --enable-64bit
-  make ${SOURCE_DATE_EPOCH:+
-    SH_NOW="${SOURCE_DATE_EPOCH}000000"
-    SH_DATE="$(date --utc --date="@$SOURCE_DATE_EPOCH" '+%Y-%m-%d %T')"
-  }
+  make
+#  make ${SOURCE_DATE_EPOCH:+
+#    SH_NOW="${SOURCE_DATE_EPOCH}000000"
+#    SH_DATE="$(date --utc --date="@$SOURCE_DATE_EPOCH" '+%Y-%m-%d %T')"
+#  }
 }
 
 package() {

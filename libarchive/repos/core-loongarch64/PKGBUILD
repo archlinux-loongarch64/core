@@ -5,7 +5,7 @@ pkgname=libarchive
 pkgver=3.6.1
 pkgrel=1
 pkgdesc='Multi-format archive and compression library'
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 url='https://libarchive.org/'
 license=('BSD')
 depends=('acl' 'libacl.so' 'bzip2' 'expat' 'lz4' 'openssl' 'xz' 'zlib' 'zstd')
@@ -19,6 +19,7 @@ sha256sums=('5a411aceb978f43e626f0c2d1812ddd8807b645ed892453acabd532376c148e6'
 build() {
   cd "${pkgname}-${pkgver}"
 
+  autoreconf -fi
   ./configure \
       --prefix=/usr \
       --without-xml2 \

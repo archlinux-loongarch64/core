@@ -5,7 +5,7 @@ pkgname=dosfstools
 pkgver=4.2
 pkgrel=2
 pkgdesc="DOS filesystem utilities"
-arch=(x86_64)
+arch=('x86_64' 'loongarch64')
 depends=('glibc')
 source=(https://github.com/$pkgname/$pkgname/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz{,.sig}
 )
@@ -18,6 +18,7 @@ md5sums=('49c8e457327dc61efab5b115a27b087a'
 
 build() {
   cd $pkgname-$pkgver
+  autoreconf -fi
   ./configure --prefix=/usr --libexecdir=/usr/lib \
               --sbindir=/usr/bin --mandir=/usr/share/man \
               --docdir=/usr/share/doc/dosfstools --enable-compat-symlinks

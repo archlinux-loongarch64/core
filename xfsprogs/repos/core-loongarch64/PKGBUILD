@@ -1,9 +1,9 @@
 # Maintainer : Tobias Powalowski <tpowa@archlinux.org>
 pkgname=xfsprogs
 pkgver=5.15.0
-pkgrel=2
+pkgrel=3
 pkgdesc="XFS filesystem utilities"
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 license=('LGPL')
 url="https://xfs.org"
 depends=('sh' 'util-linux-libs' 'icu' 'device-mapper' 'libinih' 'liburcu')
@@ -29,6 +29,9 @@ package() {
   chown -R root "$pkgdir"
   chgrp -R root "$pkgdir"
   # add hack as we cannot set rootlibdir
-  mv "${pkgdir}"/lib/libhandle.so* "${pkgdir}/usr/lib/"
-  rm -rf "${pkgdir}/lib"
+  mv "${pkgdir}"/lib64/libhandle.so* "${pkgdir}/usr/lib/"
+  mv "${pkgdir}"/usr/lib64/* "${pkgdir}/usr/lib/"
+  rm -rf "${pkgdir}"/{lib64,usr/lib64}
+  #rm -rf "${pkgdir}"/lib64
+  #rm -rf "${pkgdir}"/usr/lib64
 }

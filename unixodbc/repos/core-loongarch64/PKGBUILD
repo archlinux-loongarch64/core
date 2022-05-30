@@ -6,7 +6,7 @@ pkgname=unixodbc
 pkgver=2.3.9
 pkgrel=1
 pkgdesc="ODBC is an open specification for providing application developers with a predictable API with which to access Data Sources"
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 license=('GPL2' 'LGPL2.1')
 url="http://www.unixodbc.org/"
 backup=('etc/odbc.ini' 'etc/odbcinst.ini')
@@ -16,6 +16,7 @@ sha256sums=('52833eac3d681c8b0c9a5a65f2ebd745b3a964f208fc748f977e44015a31b207')
 
 build() {
     cd unixODBC-${pkgver}
+    autoreconf -fi
     ./configure --prefix=/usr --sysconfdir=/etc
     make
 }

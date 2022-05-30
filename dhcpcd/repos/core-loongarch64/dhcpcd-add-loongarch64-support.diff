@@ -1,0 +1,13 @@
+diff --git a/src/privsep-linux.c b/src/privsep-linux.c
+index ee2e22d..d2d43b2 100644
+--- a/src/privsep-linux.c
++++ b/src/privsep-linux.c
+@@ -222,6 +222,8 @@ ps_root_sendnetlink(struct dhcpcd_ctx *ctx, int protocol, struct msghdr *msg)
+ #  else
+ #    define SECCOMP_AUDIT_ARCH AUDIT_ARCH_RISCV32
+ #  endif
++#elif defined(__loongarch64)
++#  define SECCOMP_AUDIT_ARCH AUDIT_ARCH_LOONGARCH64
+ #elif defined(__s390x__)
+ #  define SECCOMP_AUDIT_ARCH AUDIT_ARCH_S390X
+ #elif defined(__s390__)

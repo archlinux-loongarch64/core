@@ -4,11 +4,11 @@
 # Contributor: Gerardo Exequiel Pozzi <vmlinuz386@yahoo.com.ar>
 
 pkgbase=libcap-ng
-pkgname=(libcap-ng python-capng)
+pkgname=(libcap-ng )
 pkgver=0.8.2
 pkgrel=7
 pkgdesc='A library for Linux that makes using posix capabilities easy'
-arch=(x86_64)
+arch=('x86_64' 'loongarch64')
 url='https://people.redhat.com/sgrubb/libcap-ng/'
 license=(LGPL2.1)
 depends=(glibc)
@@ -54,7 +54,7 @@ package_libcap-ng() {
 
   (
     cd "$pkgdir"
-    _pick python-capng usr/lib/python*
+#    _pick python-capng usr/lib/python*
   )
 }
 

@@ -5,7 +5,7 @@ pkgname=(libxcrypt libxcrypt-compat)
 pkgver=4.4.28
 pkgrel=2
 pkgdesc='Modern library for one-way hashing of passwords'
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 url='https://github.com/besser82/libxcrypt/'
 license=('GPL')
 depends=('glibc')
@@ -20,6 +20,9 @@ sha256sums=('9e936811f9fad11dbca33ca19bd97c55c52eb3ca15901f27ade046cc79e69e87'
 build() {
   mkdir build-libxcrypt build-libxcrypt-compat
 
+  pushd "${srcdir}/${pkgbase}-${pkgver}"
+  	autoreconf -fi
+  popd
   cd "${srcdir}/build-libxcrypt/"
   "${srcdir}/${pkgbase}-${pkgver}"/configure \
     --prefix=/usr \
@@ -49,6 +52,9 @@ package_libxcrypt() {
   cd build-libxcrypt/
 
   make DESTDIR="${pkgdir}" install
+  pushd $pkgdir/usr/lib/
+  	ln -sv libcrypt.so libcrypt.so.1
+  popd
 }
 
 package_libxcrypt-compat() {

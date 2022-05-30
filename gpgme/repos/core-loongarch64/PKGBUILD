@@ -3,12 +3,12 @@
 # Contributor: Sarah Hay <sarah@archlinux.org>
 
 pkgbase=gpgme
-pkgname=(gpgme qgpgme python-gpgme)
+pkgname=(gpgme )
 pkgver=1.17.1
 pkgrel=1
 _python_ver=3.10
 pkgdesc='A C wrapper library for GnuPG'
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 url='https://www.gnupg.org/related_software/gpgme/'
 license=('LGPL')
 makedepends=('libgpg-error' 'gnupg' 'qt5-base' 'python' 'swig')
@@ -28,6 +28,7 @@ prepare() {
 build() {
   cd ${pkgbase}-${pkgver}
 
+  autoreconf -fi
   ./configure \
     --prefix=/usr \
     --disable-fd-passing \
@@ -37,7 +38,7 @@ build() {
 
   # ensure reproducibility of .pyc files
   touch -d @$SOURCE_DATE_EPOCH lang/python/version.py
-  touch -d @$SOURCE_DATE_EPOCH lang/python/python${_python_ver}-gpg/lib.linux-x86_64-${_python_ver}/gpg/gpgme.py
+#  touch -d @$SOURCE_DATE_EPOCH lang/python/python${_python_ver}-gpg/lib.linux-x86_64-${_python_ver}/gpg/gpgme.py
 
   # .pyc files will be created if check() is used - generate them here
 
@@ -66,9 +67,9 @@ package_gpgme() {
   make DESTDIR="${pkgdir}" install
 
   # split qgpgme
-  rm -r "${pkgdir}"/usr/include/{qgpgme,QGpgME}/
-  rm -r "${pkgdir}"/usr/lib/{cmake/QGpgme/,libqgpgme.*}
-  rm -r "${pkgdir}"/usr/lib/python*
+#  rm -r "${pkgdir}"/usr/include/{qgpgme,QGpgME}/
+#  rm -r "${pkgdir}"/usr/lib/{cmake/QGpgme/,libqgpgme.*}
+#  rm -r "${pkgdir}"/usr/lib/python*
 }
 
 package_qgpgme() {

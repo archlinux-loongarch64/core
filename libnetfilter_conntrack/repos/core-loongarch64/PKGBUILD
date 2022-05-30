@@ -7,7 +7,7 @@ pkgname=libnetfilter_conntrack
 pkgver=1.0.9
 pkgrel=1
 pkgdesc='Library providing an API to the in-kernel connection tracking state table'
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 depends=('libnfnetlink' 'libmnl')
 url='https://www.netfilter.org/projects/libnetfilter_conntrack/'
 license=('GPL')
@@ -18,6 +18,7 @@ sha256sums=('67bd9df49fe34e8b82144f6dfb93b320f384a8ea59727e92ff8d18b5f4b579a8'
 
 build() {
   cd $pkgname-$pkgver
+  autoreconf -fi
   ./configure --prefix=/usr
   make
 }

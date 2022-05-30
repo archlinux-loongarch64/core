@@ -10,7 +10,7 @@ _patchlevel=016
 pkgver=${_basever}.${_patchlevel}
 pkgrel=1
 pkgdesc='The GNU Bourne Again shell'
-arch=(x86_64)
+arch=('x86_64' 'loongarch64')
 license=(GPL)
 url='https://www.gnu.org/software/bash/bash.html'
 backup=(etc/bash.bash{rc,_logout} etc/skel/.bash{rc,_profile,_logout})
@@ -50,6 +50,7 @@ build() {
                -DNON_INTERACTIVE_LOGIN_SHELLS)
   export CFLAGS="${CFLAGS} ${_bashconfig[@]}"
 
+  cp -rfa /usr/share/autoconf/build-aux/config.* support/
   ./configure \
     --prefix=/usr \
     --with-curses \

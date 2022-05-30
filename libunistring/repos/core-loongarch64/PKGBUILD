@@ -10,7 +10,7 @@ pkgver=0.9.10
 pkgrel=3
 pkgdesc='Library for manipulating Unicode strings and C strings'
 url='https://www.gnu.org/software/libunistring/'
-arch=(x86_64)
+arch=('x86_64' 'loongarch64')
 license=(GPL)
 depends=(glibc)
 provides=('libunistring.so')
@@ -29,6 +29,7 @@ prepare() {
 
 build() {
   cd $pkgname-$pkgver
+  cp -rfa /usr/share/autoconf/build-aux/config.* build-aux/
   ./configure --prefix=/usr
   make
 }

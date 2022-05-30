@@ -9,7 +9,7 @@ _docver=${_srcver}
 pkgver=3.38.2
 pkgrel=1
 pkgdesc="A C library that implements an SQL database engine"
-arch=('x86_64')
+arch=('x86_64' 'loongarch64')
 license=('custom:Public Domain')
 url="https://www.sqlite.org/"
 makedepends=('tcl' 'readline' 'zlib')
@@ -31,7 +31,7 @@ prepare() {
   # https://src.fedoraproject.org/rpms/sqlite/blob/master/f/sqlite.spec
   patch -Np1 -i ../sqlite-lemon-system-template.patch
 
-  #autoreconf -vfi
+  autoreconf -vfi
 }
 
 build() {

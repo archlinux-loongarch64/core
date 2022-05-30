@@ -5,7 +5,7 @@ pkgname=libnghttp2
 pkgver=1.47.0
 pkgrel=1
 pkgdesc='Framing layer of HTTP/2 is implemented as a reusable C library'
-arch=(x86_64)
+arch=('x86_64' 'loongarch64')
 url='https://nghttp2.org/'
 license=(MIT)
 depends=(glibc)
@@ -16,7 +16,7 @@ sha512sums=('ad6266a15789fec966db6be8ac0b9ee6cca257a3bb91fdd34a58acf0e472643a571
 build() {
   cd nghttp2-$pkgver
 
-  autoreconf -i
+  autoreconf -fi
   ./configure \
     --prefix=/usr \
     --disable-examples \
